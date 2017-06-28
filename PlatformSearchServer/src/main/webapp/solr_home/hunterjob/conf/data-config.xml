@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+		<!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+		<!--user="igoldjob" password="i@goldjob2014" />-->
+		<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://10.11.11.47:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="admin" password="admin" />
+
+	<document name="DoMain">
+		<!-- 
+		query="SELECT j.* ,c.corpname,d.`label` AS strindustry,d1.`label` AS strjobtype ,d2.`label` AS strsalary,d3.`label` AS strjobcity FROM publish_jobinfo j 
+				LEFT JOIN c_corpinfo c ON j.corpid = c.corpid 
+				LEFT JOIN data_dictionary d ON j.`industry` = d.`value` AND d.`groupCode`='DICT_COMP_INDUSTRY'
+				LEFT JOIN data_dictionary d1 ON j.`jobtype` = d1.`value` AND d1.`groupCode`='DICT_JOB_JOBTYPE'
+				LEFT JOIN data_dictionary d2 ON j.`salary` = d2.`value` AND d2.`groupCode`='DICT_JOB_SALARY'
+				LEFT JOIN data_dictionary d3 ON j.`jobcity` = d3.`value` AND d3.`groupCode`='DICT_COMP_CITY'
+				WHERE j.activeflag=1"
+		 -->
+		<entity name="hunterjob" pk="jobid"
+			query="SELECT j.*,c.corpname,c.nature,c.showname,u.`username` , u.`jobtitle`,u.sex as hsex FROM h_jobinfo j LEFT JOIN h_corpinfo c ON j.corpid = c.corpid  LEFT JOIN h_userinfo u ON j.`hhid` = u.`hhid` WHERE j.activeflag=1 and j.status=2 "
+			deltaImportQuery="SELECT j.*,c.corpname,c.nature,c.showname,u.`username` , u.`jobtitle` FROM h_jobinfo j LEFT JOIN h_corpinfo c ON j.corpid = c.corpid  LEFT JOIN h_userinfo u ON j.`hhid` = u.`hhid` WHERE j.activeflag=1 AND j.status=2 and j.jobid='${dih.delta.jobid}'"
+			deltaQuery="SELECT j.*,c.corpname,c.nature,c.showname,u.`username` , u.`jobtitle` FROM h_jobinfo j LEFT JOIN h_corpinfo c ON j.corpid = c.corpid  LEFT JOIN h_userinfo u ON j.`hhid` = u.`hhid` WHERE j.activeflag=1 AND j.status=2 and j.updatedate > '${dataimporter.hunterjob.last_index_time}'">
+			<field column="jobid" name="id" />
+			<field column="hhid" name="hhid" />
+			<field column="corpid" name="corpid" />
+			<field column="username" name="username" />
+			<field column="jobtitle" name="jobtitle" />
+			<field column="jobname" name="jobname" />
+			<field column="ebid" name="ebid" />
+			<field column="jobcity" name="jobcity" />
+			<field column="salary" name="salary" />	
+			<field column="workyears" name="workyears" />	
+			<field column="ebid" name="ebid" />			
+			<field column="createdate" name="createdate" />
+			<field column="refreshdate" name="refreshdate" />
+			<field column="jobcategoryid" name="category" />
+			<field column="corpname" name="corpname" />
+			<field column="showname" name="showname" />
+			<field column="urgent" name="urgent" />
+			<field column="industry" name="industry" />
+			<field column="nature" name="nature" />
+			<field column="jobtype" name="jobtype" />			
+			<field column="strindustry" name="strindustry" />
+			<field column="strjobtype" name="strjobtype" />
+			<field column="strsalary" name="strsalary" />
+			<field column="strjobcity" name="strjobcity" />		
+			<field column="sex" name="sex" />
+			<field column="hsex" name="hsex" />	
+		</entity>
+	</document>
+</dataConfig> 

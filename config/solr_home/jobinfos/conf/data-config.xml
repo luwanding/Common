@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+	<!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+	<!--user="igoldjob" password="i@goldjob2014" />-->
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://printserver:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+	<document name="DoMain">
+			<!-- 
+			query="SELECT j.* ,d.`label` AS strindustry,d1.`label` AS strnature ,d2.`label` AS strscope,d3.`label` AS strcity FROM c_corpinfo j 
+				LEFT JOIN data_dictionary d ON j.`industry` = d.`value` AND d.`groupCode`='DICT_COMP_INDUSTRY'
+				LEFT JOIN data_dictionary d1 ON j.`nature` = d1.`value` AND d1.`groupCode`='DICT_COMP_NATURE'
+				LEFT JOIN data_dictionary d2 ON j.`scope` = d2.`value` AND d2.`groupCode`='DICT_COMP_SCOPE'
+				LEFT JOIN data_dictionary d3 ON j.`city` = d3.`value` AND d3.`groupCode`='DICT_COMP_CITY'
+				WHERE j.activeflag=1"
+			 -->	
+		<entity name="spare_corpinfo" pk="corpid"			
+			query="SELECT *  FROM jobinfos  WHERE 1=1" 
+			deltaImportQuery="SELECT * FROM jobinfos where  corpid='${dih.delta.corpid} ORDER BY RAND()'"
+			deltaQuery="SELECT * FROM jobinfos where jobcreatedate > '${dataimporter.jobinfos.last_index_time} ORDER BY RAND()' ">
+			<field column="jobid" name="id" />
+			<field column="jobname" name="jobname" />
+			<field column="jobcity" name="jobcity" />
+			<field column="jobindustry" name="jobindustry" />
+			<field column="jobsalary" name="jobsalary" />
+			<field column="jobcreatedate" name="jobcreatedate" />
+			<field column="jobworkyears" name="jobworkyears" />
+			<field column="jobebid" name="jobebid" />
+			<field column="jobisurgent" name="jobisurgent" />
+			<field column="jobupdatedate" name="jobupdatedate" />
+			<field column="corpid" name="corpid" />
+			<field column="corpname" name="corpname" />
+			<field column="corpcity" name="corpcity" />
+			<field column="corpindustry" name="corpindustry" />
+			<field column="corpnature" name="corpnature" />
+			<field column="types" name="types" />
+		</entity>
+
+	</document>
+</dataConfig> 

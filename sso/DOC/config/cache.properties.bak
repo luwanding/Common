@@ -1,0 +1,3 @@
+memcache.config.file=D:\\config\\memcached-default.xml
+memcache.project.name=test
+memcache.project.code=1.0

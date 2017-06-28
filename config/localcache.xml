@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localcache>
+   <!--<cache name="certinfo">-->
+      <!--<maxSize>200</maxSize>-->
+      <!--&lt;!&ndash;有效时间(秒) &ndash;&gt;-->
+      <!--<maxLife>3000</maxLife>-->
+      <!--&lt;!&ndash; 启动时加载列表 &ndash;&gt;-->
+      <!--<loader>-->
+          <!--<node key="cachekey">-->
+             <!--<value><ref id = "test" /></value>-->
+          <!--</node>-->
+          <!--<node key="cachekey1">-->
+              <!--<value><ref id = "test1" /></value>-->
+          <!--</node>-->
+          <!--<node key="cachekey3">-->
+              <!--<value><ref id = "test3" /></value>-->
+          <!--</node>-->
+      <!--</loader>-->
+   <!--</cache>-->
+</localcache>

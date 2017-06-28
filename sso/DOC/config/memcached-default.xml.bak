@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<cache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="memcached-test.xsd">
+
+	<!-- 普通服务器<value>192.168.1.135:11211</value> -->
+	<commonsocketpool name="common" failover="true"
+		initConn="10" minConn="5" maxConn="250" maintSleep="30" nagle="false"
+		socketTo="3000" aliveCheck="true">
+		<servers>
+			
+<value>192.168.1.135:11211</value>
+		</servers>
+	</commonsocketpool>
+
+
+</cache>

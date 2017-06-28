@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+		<!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+		<!--user="igoldjob" password="i@goldjob2014" />-->
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+
+	<document name="DoMain">
+		<!-- 
+		query="SELECT j.* ,c.corpname,d.`label` AS strindustry,d1.`label` AS strjobtype ,d2.`label` AS strsalary,d3.`label` AS strjobcity FROM publish_jobinfo j 
+				LEFT JOIN c_corpinfo c ON j.corpid = c.corpid 
+				LEFT JOIN data_dictionary d ON j.`industry` = d.`value` AND d.`groupCode`='DICT_COMP_INDUSTRY'
+				LEFT JOIN data_dictionary d1 ON j.`jobtype` = d1.`value` AND d1.`groupCode`='DICT_JOB_JOBTYPE'
+				LEFT JOIN data_dictionary d2 ON j.`salary` = d2.`value` AND d2.`groupCode`='DICT_JOB_SALARY'
+				LEFT JOIN data_dictionary d3 ON j.`jobcity` = d3.`value` AND d3.`groupCode`='DICT_COMP_CITY'
+				WHERE j.activeflag=1"
+		 -->
+		<entity name="resumeinfo" pk="resumeid"
+			query="	SELECT r.sex,r.address,r.postcodenow,p.`userid`,
+					CASE WHEN  userid IS NULL THEN 'p99999999'  ELSE CONCAT('p',userid) END AS hxID , p.headimg,p.`loginname`,r.`resumeid`
+					,CASE WHEN  jobinfo.expectsalarycode IS NULL THEN '面议' WHEN  jobinfo.expectsalarycode ='' THEN '面议' ELSE jobinfo.expectsalarycode END AS salary
+					,CASE WHEN  jobinfo.expectsalarycode IS NULL THEN '面议' WHEN  jobinfo.expectsalarycode ='' THEN '面议' ELSE jobinfo.expectsalarycode END AS expectsalarycode
+					,r.`username`,r.`workyears`,r.`educationbg`,r.livecityid,r.updatedate,
+					CASE WHEN  jobinfo.functions IS NULL OR jobinfo.functions =''  THEN  CASE WHEN r.titlenow IS NULL OR r.titlenow ='' THEN '还未填写' ELSE r.titlenow  END  ELSE jobinfo.functions END AS postids
+					,CASE WHEN  r.companynow IS NULL THEN '还未填写' WHEN  r.companynow ='' THEN '还未填写' ELSE r.companynow END AS companynow   	
+					,CASE WHEN  r.titlenow IS NULL THEN '还未填写' WHEN  r.titlenow ='' THEN '还未填写' ELSE r.titlenow END AS titlenow    	
+					,COALESCE(v.vpictureurl,'') AS vpictureurl,pr.createby AS createbyP,co.createby AS createbyC,co.launchtype,r.createdate
+					,jobinfo.functions,jobinfo.sitecity,jobinfo.selfRemark,co.acceptby
+					 FROM (p_userinfo p,resumeinfo r) 
+					LEFT JOIN videoinfo  v ON p.`userid` = v.thenid AND v.videotype=1 AND v.activeflag=1 AND v.vstatus = 1 
+					LEFT JOIN jobintentinfo jobinfo ON r.resumeid=jobinfo.resumeid AND jobinfo.activeflag=1
+					LEFT JOIN p_resumelock pr ON pr.resumeid=r.resumeid AND pr.activeflag=1
+					LEFT JOIN contactinfo co ON co.resumeid=r.resumeid 
+					WHERE p.`userid` = r.`createby` AND r.activeflag =1"
+			deltaImportQuery="SELECT r.sex,r.address,r.postcodenow,p.`userid`,
+					CASE WHEN  userid IS NULL THEN 'p99999999'  ELSE CONCAT('p',userid) END AS hxID , p.headimg,p.`loginname`,r.`resumeid`
+					,CASE WHEN  jobinfo.expectsalarycode IS NULL THEN '面议' WHEN  jobinfo.expectsalarycode ='' THEN '面议' ELSE jobinfo.expectsalarycode END AS salary
+					,CASE WHEN  jobinfo.expectsalarycode IS NULL THEN '面议' WHEN  jobinfo.expectsalarycode ='' THEN '面议' ELSE jobinfo.expectsalarycode END AS expectsalarycode
+					,r.`username`,r.`workyears`,r.`educationbg`,r.livecityid,r.updatedate,
+					CASE WHEN  jobinfo.functions IS NULL OR jobinfo.functions =''  THEN  CASE WHEN r.titlenow IS NULL OR r.titlenow ='' THEN '还未填写' ELSE r.titlenow  END  ELSE jobinfo.functions END AS postids
+					,CASE WHEN  r.companynow IS NULL THEN '还未填写' WHEN  r.companynow ='' THEN '还未填写' ELSE r.companynow END AS companynow   	
+					,CASE WHEN  r.titlenow IS NULL THEN '还未填写' WHEN  r.titlenow ='' THEN '还未填写' ELSE r.titlenow END AS titlenow    	
+					,COALESCE(v.vpictureurl,'') AS vpictureurl,pr.createby AS createbyP,co.createby AS createbyC,co.launchtype,r.createdate
+					,jobinfo.functions,jobinfo.sitecity,jobinfo.selfRemark,co.acceptby
+					 FROM (p_userinfo p,resumeinfo r) 
+					LEFT JOIN videoinfo  v ON p.`userid` = v.thenid AND v.videotype=1 AND v.activeflag=1 AND v.vstatus = 1  
+					LEFT JOIN jobintentinfo jobinfo ON r.resumeid=jobinfo.resumeid AND jobinfo.activeflag=1
+					LEFT JOIN p_resumelock pr ON pr.resumeid=r.resumeid AND pr.activeflag=1
+					LEFT JOIN contactinfo co ON co.resumeid=r.resumeid 
+					WHERE p.`userid` = r.`createby` AND r.activeflag =1  and r.resumeid='${dih.delta.resumeid}'"
+			deltaQuery="SELECT r.sex,r.address,r.postcodenow,p.`userid`,
+					CASE WHEN  userid IS NULL THEN 'p99999999'  ELSE CONCAT('p',userid) END AS hxID , p.headimg,p.`loginname`,r.`resumeid`
+					,CASE WHEN  jobinfo.expectsalarycode IS NULL THEN '面议' WHEN  jobinfo.expectsalarycode ='' THEN '面议' ELSE jobinfo.expectsalarycode END AS salary
+					,CASE WHEN  jobinfo.expectsalarycode IS NULL THEN '面议' WHEN  jobinfo.expectsalarycode ='' THEN '面议' ELSE jobinfo.expectsalarycode END AS expectsalarycode
+					,r.`username`,r.`workyears`,r.`educationbg`,r.livecityid,r.updatedate,
+					CASE WHEN  jobinfo.functions IS NULL OR jobinfo.functions =''  THEN  CASE WHEN r.titlenow IS NULL OR r.titlenow ='' THEN '还未填写' ELSE r.titlenow  END  ELSE jobinfo.functions END AS postids
+					,CASE WHEN  r.companynow IS NULL THEN '还未填写' WHEN  r.companynow ='' THEN '还未填写' ELSE r.companynow END AS companynow   	
+					,CASE WHEN  r.titlenow IS NULL THEN '还未填写' WHEN  r.titlenow ='' THEN '还未填写' ELSE r.titlenow END AS titlenow    	
+					,COALESCE(v.vpictureurl,'') AS vpictureurl,pr.createby AS createbyP,co.createby AS createbyC,co.launchtype,r.createdate
+					,jobinfo.functions,jobinfo.sitecity,jobinfo.selfRemark,co.acceptby
+					 FROM (p_userinfo p,resumeinfo r) 
+					LEFT JOIN videoinfo  v ON p.`userid` = v.thenid AND v.videotype=1 AND v.activeflag=1 AND v.vstatus = 1  
+					LEFT JOIN jobintentinfo jobinfo ON r.resumeid=jobinfo.resumeid AND jobinfo.activeflag=1
+					LEFT JOIN p_resumelock pr ON pr.resumeid=r.resumeid AND pr.activeflag=1
+					LEFT JOIN contactinfo co ON co.resumeid=r.resumeid 
+					WHERE p.`userid` = r.`createby` AND r.activeflag =1  and r.updatedate > '${dataimporter.resumeinfo.last_index_time}'">
+			<field column="resumeid" name="resumeid" />
+			<field column="sex" name="sex" />
+			<field column="userid" name="userid" />
+			<field column="hxID" name="hxID" />
+			<field column="headimg" name="headimg" />
+			<field column="loginname" name="loginname" />	
+			<field column="resumeid" name="resumeid" />	
+			<field column="salary" name="salary" />	
+			<field column="username" name="username" />
+			<field column="workyears" name="workyears" />
+			<field column="educationbg" name="educationbg" />
+			<field column="livecityid" name="livecityid" />
+			<field column="updatedate" name="updatedate" />
+			<field column="postids" name="postids" />
+			<field column="companynow" name="companynow" />
+			<field column="titlenow" name="titlenow" />
+			<field column="vpictureurl" name="vpictureurl" />			
+			<field column="selfRemark" name="selfRemark" />
+			<field column="address" name="address" />			
+			<field column="postcodenow" name="postcodenow" />
+			<field column="createbyP" name="createbyP" />
+			<field column="createbyC" name="createbyC" />
+			<field column="launchtype" name="launchtype" />
+			<field column="createdate" name="createdate" />
+			<field column="expectsalarycode" name="expectsalarycode" />
+			<field column="sitecity" name="sitecity" />
+			<field column="functions" name="functions" />
+			<field column="acceptby" name="acceptby" />
+		</entity>
+
+	</document>
+</dataConfig> 

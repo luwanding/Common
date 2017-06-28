@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//src/java=UTF-8
+encoding//src/java/com/chyjr/login/controller/LoginController.java=UTF-8
+encoding//src/java/com/chyjr/login/dao/IUserLoginDao.java=gbk
+encoding//src/java/com/chyjr/login/module/User.java=GBK
+encoding//src/java/com/chyjr/login/service/impl/UserLoginServiceImpl.java=GBK
+encoding//src/resouces/uamsClient.properties=UTF-8
+encoding//src/test/java=UTF-8
+encoding//web/resouces/js/jquery-2.1.0.min.js=UTF-8
+encoding/src=UTF-8

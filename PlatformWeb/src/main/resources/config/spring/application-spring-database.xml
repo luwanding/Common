@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<!-- 配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${resources.config.path}/jdbc-mysql.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 动态数据源的父类,其中配置的参数为子数据库的default值 -->
+	<bean id="writeDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" >
+		<property name="driverClass">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="maxPoolSize">
+			<value>${jdbc.maxPoolSize}</value>
+		</property>
+		<property name="minPoolSize">
+			<value>${jdbc.minPoolSize}</value>
+		</property>
+		<property name="initialPoolSize">
+			<value>${jdbc.initialPoolSize}</value>
+		</property>
+		<property name="idleConnectionTestPeriod">
+			<value>${jdbc.idleConnectionTestPeriod}
+			</value>
+		</property>
+		<property name="maxIdleTime">
+			<value>${jdbc.maxIdleTime}</value>
+		</property>
+	</bean>
+
+	
+	<bean id="read02" destroy-method="close" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+		<property name="jdbcUrl">
+			<value>${jdbc.read.db02.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.read.db02.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.read.db02.password}</value>
+		</property>
+	</bean>
+
+	
+	<bean id="read03" destroy-method="close" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl">
+			<value>${jdbc.read.db03.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.read.db03.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.read.db03.password}</value>
+		</property>
+	</bean>
+
+	<bean id="read04" destroy-method="close" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+		<property name="jdbcUrl">
+			<value>${jdbc.read.db04.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.read.db04.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.read.db04.password}</value>
+		</property>
+	</bean>
+
+
+	<!-- 动态数据源 -->
+	<bean id="dataSource" class="com.chyjr.platform.database.datasource.DataSourceRouterSelect">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="write"  value-ref="writeDataSource" />
+				<entry key="read02" value-ref="read02" />
+				<entry key="read03" value-ref="read03" />
+				<entry key="read04" value-ref="read04" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="writeDataSource" />
+		<property name="dataSourceDynamicManagerImpl">
+			<ref local="dataSourceDynamicManagerImpl" />
+		</property>
+	</bean>
+
+	<!-- 读写管理 -->
+	<bean id="dataSourceDynamicManagerImpl" class="com.chyjr.platform.database.datasource.DataSourceDynamicManagerImpl">
+		<property name="readDateSourceMap">
+			<map key-type="java.lang.String">
+				<entry key="read02" value="read02" />
+				<entry key="read03" value="read03" />
+				<entry key="read04" value="read04" />
+			</map>
+		</property>
+		<property name="writeKey">
+			<value>writeDataSource</value>
+		</property>
+	</bean>
+	<!-- 事务配置 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 事务管理拦截器 -->
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="query*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="is*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="find*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="get*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="select*">PROPAGATION_SUPPORTS,-Exception</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="del*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED,-Exception</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!--交易模块业务层事务拦截器：注解性事务(方法命名避开通用拦截器) add by wh.cheng-->
+	<bean id="trx.transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource">
+			<bean
+				class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
+	</bean>
+
+
+	<!-- 动态数据源拦截器 -->
+	<bean id="dataSourceInterceptor" class="com.chyjr.platform.database.datasource.DataSourceInterceptor">
+		<property name="attributes">
+			<props>
+			    <prop key="query*">read</prop>
+				<prop key="is*">read</prop>
+				<prop key="find*">read</prop>
+				<prop key="get*">read</prop>
+				<prop key="select*">read</prop>
+				<prop key="save*">write</prop>
+				<prop key="del*">write</prop>
+				<prop key="add*">write</prop>
+				<prop key="edit*">write</prop>
+				<prop key="upd*">write</prop>
+			</props>
+		</property>
+		<property name="dataSourceDynamicManagerImpl">
+			<ref bean="dataSourceDynamicManagerImpl" />
+		</property>
+	</bean>
+
+	<!-- 根据Name匹配拦截器 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*DaoImpl</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<!-- 指定获取数据源的Interceptor -->
+				<value>dataSourceInterceptor</value>
+				<!-- 事务管理的Interceptor -->
+				<value>transactionInterceptor</value>
+				<!-- 交易模块业务层事务拦截器：注解性事务-若service没有被覆盖，则用XML配置事务 add by wh.cheng -->
+				<!-- <value>trx.transactionInterceptor</value>-->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sqlSessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="configLocation" value="classpath:/config/mybatis/SqlMapConfig.xml"/>  
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="sqlSessionTemplate"  class="org.mybatis.spring.SqlSessionTemplate">  
+         <constructor-arg ref="sqlSessionFactory"/> 
+    </bean>
+    
+    <!-- mybatis dao  基类  
+    <bean id="dbMybatisGeneric" class="com.chyjr.platform.database.DBMybatisGenericImpl">  
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>  
+    </bean>-->   
+	
+</beans>

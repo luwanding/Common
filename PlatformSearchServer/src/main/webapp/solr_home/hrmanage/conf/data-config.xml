@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://10.11.11.47:3306/hr_manage_test?useUnicode=true&amp;characterEncoding=utf-8"
+		user="admin" password="admin" />
+	<document name="DoMain">
+
+		<entity name="resumeinfo" pk="resumeid"
+			query="SELECT a.*,b.postids AS jobpostids,b.functions,c.recruittype,c.importtype,c.readflag,d.belongto,GROUP_CONCAT(DISTINCT e.companyid) companyid,GROUP_CONCAT( DISTINCT e.source) source,GROUP_CONCAT( DISTINCT f.positionid) positionid 
+                                                        FROM resumeinfo a
+                                                        LEFT JOIN jobintentinfo b
+                                                        ON a.resumeid =b.resumeid
+                                                        LEFT JOIN resumeappend c
+                                                        ON a.resumeid=c.resumeid
+                                                        LEFT JOIN resumebelongto d
+                                                        ON a.resumeid=d.resumeid
+                                                        LEFT JOIN resumesource e
+                                                        ON a.resumeid=e.resumeid
+                                                        LEFT JOIN  positioncandidate  f 
+                                                        ON a.resumeid = f.resumeid 
+                                                        WHERE a.activeflag=1 GROUP BY resumeid"
+
+			deltaImportQuery="SELECT a.*,GROUP_CONCAT(f.positionid) positionid FROM (
+SELECT a.*,b.postids AS jobpostids,b.functions,c.recruittype,c.importtype,c.readflag,d.belongto,GROUP_CONCAT( e.companyid) companyid,GROUP_CONCAT( e.source) source
+                                                        FROM resumeinfo a
+                                                        LEFT JOIN jobintentinfo b
+                                                        ON a.resumeid =b.resumeid
+                                                        LEFT JOIN resumeappend c
+                                                        ON a.resumeid=c.resumeid
+                                                        LEFT JOIN resumebelongto d
+                                                        ON a.resumeid=d.resumeid
+                                                        LEFT JOIN resumesource e
+                                                        ON a.resumeid=e.resumeid
+                                                        WHERE a.activeflag=1 AND  a.resumeid='${dih.delta.resumeid}'  GROUP BY resumeid)a
+                                                        LEFT JOIN  positioncandidate  f 
+                                                        ON a.resumeid=f.resumeid"
+
+			deltaQuery="SELECT a.*,b.postids AS jobpostids,b.functions,c.recruittype,c.importtype,c.readflag,d.belongto,GROUP_CONCAT(DISTINCT e.companyid) companyid,GROUP_CONCAT( DISTINCT e.source) source,GROUP_CONCAT( DISTINCT f.positionid) positionid 
+                                                        FROM resumeinfo a
+                                                        LEFT JOIN jobintentinfo b
+                                                        ON a.resumeid =b.resumeid
+                                                        LEFT JOIN resumeappend c
+                                                        ON a.resumeid=c.resumeid
+                                                        LEFT JOIN resumebelongto d
+                                                        ON a.resumeid=d.resumeid
+                                                        LEFT JOIN resumesource e
+                                                        ON a.resumeid=e.resumeid
+                                                        LEFT JOIN  positioncandidate  f 
+                                                        ON a.resumeid = f.resumeid 
+                                                        WHERE a.activeflag=1 AND a.updatedate > '${dataimporter.resumeinfo.last_index_time}' GROUP BY resumeid">
+			<field column="resumeid" name="id" />
+			<field column="username" name="username" />
+			<field column="sex" name="sex" />
+			<field column="borndate" name="borndate" />
+			<field column="age" name="age" />
+			<field column="marital" name="marital" />
+			<field column="email" name="email" />
+			<field column="jobtypeid" name="jobtypeid" />
+			<field column="address" name="address" />
+			<field column="telphoneia" name="telphoneia" />
+			<field column="telphonearea" name="telphonearea" />
+			<field column="telephone" name="telephone" />
+			<field column="livecityid" name="livecityid" />
+			<field column="homepage" name="homepage" />
+			<field column="idtype" name="idtype" />
+			<field column="id" name="idnumber" />
+			<field column="accountcityid" name="accountcityid" />
+			<field column="accountaddress" name="accountaddress" />
+			<field column="salary" name="salary" />
+			<field column="basesalary" name="basesalary" />
+			<field column="yearbonus" name="yearbonus" />
+			<field column="workyears" name="workyears" />
+			<field column="postcode" name="postcode" />
+			<field column="jobstatus" name="jobstatus" />
+			<field column="corptelia" name="corptelia" />
+			<field column="corptelarea" name="corptelarea" />
+			<field column="corptelz" name="corptelz" />
+			<field column="corptelf" name="corptelf" />
+			<field column="keyword" name="keyword" />
+			<field column="height" name="height" />
+			<field column="politics" name="politics" />
+			<field column="qqcode" name="qqcode" />
+			<field column="national" name="national" />
+			<field column="hometelia" name="hometelia" />
+			<field column="hometelarea" name="hometelarea" />
+			<field column="hometelno" name="hometelno" />
+			<field column="educationbg" name="educationbg" />
+			<field column="postcodenow" name="postcodenow" />
+			<field column="postids" name="postids" />
+			<field column="startworkyear" name="startworkyear" />
+			<field column="joblb" name="joblb" />
+			<field column="companynow" name="companynow" />
+			<field column="titlenow" name="titlenow" />
+			<field column="resume_level_id" name="resume_level_id" />
+			<field column="isdownload" name="isdownload" />
+			<field column="isverify" name="isverify" />
+			<field column="telephoneimage" name="telephoneimage" />
+			<field column="emailimage" name="emailimage" />
+			<field column="imageflg" name="imageflg" />
+			<field column="updateby" name="updateby" />
+			<field column="createby" name="createby" />
+			<field column="createdate" name="createdate" />
+			<field column="updatedate" name="updatedate" />
+			<field column="activeflag" name="activeflag" />
+			<field column="jobpostids" name="jobpostids" />
+			<field column="functions" name="functions" />
+			<field column="companyid" name="companyid" />
+			<field column="recruittype" name="recruittype" />
+			<field column="source" name="source" />
+			<field column="importtype" name="importtype" />
+			<field column="belongto" name="belongto" />
+			<field column="importtype" name="importtype" />
+			<field column="sourceresumeid" name="sourceresumeid" />
+			<field column="positionid" name="positionid" />
+			<field column="readflag" name="readflag" />
+		</entity>
+
+	</document>
+</dataConfig>

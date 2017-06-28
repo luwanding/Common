@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+	<!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+	<!--user="igoldjob" password="i@goldjob2014" />-->
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+	<document name="DoMain">
+		
+		<entity name="hunter" pk="hhid"
+			query="SELECT * FROM h_userinfo WHERE activeflag=1 "
+			deltaImportQuery="SELECT * FROM h_userinfo where hhid='${dih.delta.hhid}' and activeflag=1"
+			deltaQuery="SELECT * FROM h_userinfo where updatedate > '${dataimporter.hunter.last_index_time}' and activeflag=1">
+			<field column="hhid" name="id" />
+			<field column="username" name="username" />
+			<field column="sex" name="sex" />
+			<field column="jobtitle" name="jobtitle" />
+			<field column="bizdate" name="bizdate" />
+			<field column="location" name="location" />			
+			<field column="createdate" name="createdate" />			
+			<field column="industry" name="industry" />
+			<field column="company" name="company" />
+						
+		</entity>
+
+	</document>
+</dataConfig> 

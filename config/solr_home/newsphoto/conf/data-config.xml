@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+    <!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+    <!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+    <!--user="igoldjob" password="i@goldjob2014" />-->
+    <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+  <document name="Doresumework">   
+   <entity name="newsphoto" pk="id" query="select * from i_information_photo where activeflag=1 and status=1"
+  deltaImportQuery="select * from i_information_photo where id='${dih.delta.id}' and activeflag=1 and status=1"
+  deltaQuery="select * from i_information_photo where updatedate > '${dataimporter.newsphoto.last_index_time}' and activeflag=1 and status=1">  
+   <field column="id" name="id" />
+   <field column="status" name="status" />
+    <field column="photourl" name="photourl" /> 
+	<field column="title" name="title" /> 
+	<field column="content" name="content" /> 
+	<field column="linkurl" name="linkurl" />
+    <field column="mobile_photourl" name="mobile_photourl" />
+    <field column="mobile_linkurl" name="mobile_linkurl" />
+    <field column="sort" name="sort" />
+    <field column="createdate" name="createdate" />
+	<field column="updatedate" name="updatedate" /> 
+   <field column="activeflag" name="activeflag" />   
+  </entity>   
+  
+  </document>   
+</dataConfig> 

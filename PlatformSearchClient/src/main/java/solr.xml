@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solrs>
+   <client id="certinfo">
+      <!-- 服务器http url  -->
+      <url>http://localhost:8081/solr/certinfo</url>
+      <!-- 等待读取超时(毫秒)  -->
+      <soTimeout>3000</soTimeout>
+      <!-- 连接服务器超时(毫秒) -->
+      <connectionTimeout>3000</connectionTimeout>
+      <!-- 允许一个客户端开启的最大连接数量 -->
+      <defaultMaxConnectionsPerHost>500</defaultMaxConnectionsPerHost>
+      <!-- 允许开启连接的最大值 -->
+      <maxTotalConntion>500</maxTotalConntion>
+      <!-- 是否允许请求转发与重定向 -->
+      <followRedirects>false</followRedirects>
+      <!-- 是否做传输压缩 -->
+      <allowCompression>true</allowCompression>
+      <!-- 错误重试次数 -->
+      <maxRetries>1</maxRetries>
+   </client>
+</solrs>

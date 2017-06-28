@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="debug" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%-d{HH:mm:ss}][%t] %c.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="GBK" /> 
+		<param name="Threshold" value="debug" />
+		<param name="File" value="E:/logs/webdemo.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{yyyy-MM-dd HH:mm:ss}[%60l][%-3L][%-5p]%m %n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+        	<param name="LevelMin" value="debug"/>  
+        	<param name="LevelMax" value="info"/>  
+    	</filter>  
+	</appender>
+	<appender name="ERRORFILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" /> 
+		<param name="Threshold" value="error" />
+		<param name="File" value="E:/logs/webdemo_error.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{yyyy-MM-dd HH:mm:ss}[%60l][%-3L][%-5p]%m %n" />
+		</layout>
+	</appender>
+	<logger name="com.chyjr" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	
+	<logger name="org.apache.http" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	<logger name="com.alisoft.xplatform.asf.cache" additivity="false">
+		<level value="error" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	<logger name="org.springframework.beans" additivity="false">
+		<level value="error" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	<logger name="java.sql.Statement" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	<logger name="java.sql.Connection" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	<root>
+		<priority value="DEBUG" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</root>
+</log4j:configuration>

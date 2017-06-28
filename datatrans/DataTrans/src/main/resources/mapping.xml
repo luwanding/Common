@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datatrans>
+    <connection key="form">
+        <url>jdbc:mysql://localhost:3306/resume</url>
+        <user>root</user>
+        <password>wanglulu</password>
+    </connection>
+    <task>
+        <table from="resumebaseinfo" to="resumeinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="username" to="username"></f>
+            <f from="sex" to="sex"></f>
+            <f from="borndate" to="borndate"></f>
+            <f from="marital " to="marital "></f>
+            <f from="email " to="email"></f>
+            <f from="jobtypeid " to="jobtypeid "></f>
+            <f from="address " to="address"></f>
+            <f from="telphoneia" to="telphoneia "></f>
+            <!-- <f from="telphonearea" to="telphonearea "></f>-->
+            <f from="telphone " to="telephone "></f>
+            <f from="livecityid" to="livecityid"></f>
+            <f from="homepage" to="homepage"></f>
+            <f from="idtype" to="idtype "></f>
+            <f from="id" to="id "></f>
+            <f from="accountaddressid" to="accountaddress"></f>
+            <!-- <f from="accountcityid " to="accountcityid "></f> -->
+            <f from="salary" to="salary"></f>
+            <f from="basesalary" to="basesalary"></f>
+            <f from="yearbonus " to="yearbonus "></f>
+            <f from="workyears " to="workyears"></f>
+            <f from="postcode" to="postcode "></f>
+            <f from="jobstatus " to="jobstatus"></f>
+            <f from="corptelia " to="corptelia"></f>
+            <f from="corptelarea " to="corptelarea "></f>
+            <f from="corptelz" to="corptelz "></f>
+            <f from="corptelf" to="corptelf"></f>
+            <f from="keyword " to="keyword "></f>
+            <f from="height" to="height"></f>
+            <f from="politics" to="politics"></f>
+            <f from="qqcode" to="qqcode "></f>
+            <f from="national" to="national "></f>
+            <f from="hometelia " to="hometelia"></f>
+            <f from="hometelarea " to="hometelarea "></f>
+            <f from="hometelnumber " to="hometelno"></f>
+            <!--<f from="educationbg " to="educationbg"></f>
+             <f from="postcodenow " to="postcodenow"></f>
+            <f from="postids " to="postids"></f>
+            <f from="startworkyear " to="startworkyear "></f>
+            <f from="jobindustry " to="jobindustry"></f>
+            <f from="joblb " to="joblb "></f>
+            <f from="companynow" to="companynow"></f>
+            <f from="titlenow" to="titlenow"></f> -->
+            <f from="activeflag" to="activeflag"></f>
+        </table>
+
+        <table from="jobintentinfo" to="jobintentinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="jobnature" to="jobNature"></f>
+            <f from="postids" to="postIDs"></f>
+            <f from="siteCity" to="siteCity"></f>
+            <f from="functions" to="functions"></f>
+            <f from="expectSalaryCode" to="expectSalaryCode"></f>
+            <f from="postsTime" to="postsTime"></f>
+            <f from="selfRemark" to="selfRemark"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+
+        <table from="workexperienceinfo" to="workexperienceinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="corpname" to="corpName"></f>
+            <f from="industry" to="Industry"></f>
+            <f from="corpscale" to="corpscale"></f>
+            <f from="corptype" to="corptype"></f>
+            <f from="department" to="department"></f>
+            <f from="postcode" to="postcode"></f>
+            <f from="workremark" to="workremark"></f>
+            <f from="starttime" to="starttime"></f>
+            <f from="endtime" to="endtime"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+        <table from="educationinfo" to="educationinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="starttime" to="starttime"></f>
+            <f from="endtime" to="endtime"></f>
+            <f from="school" to="school"></f>
+            <f from="specialtyid" to="specialtyid"></f>
+            <f from="specialtyremark" to="specialtyRemark"></f>
+            <f from="studyabroad" to="studyabroad"></f>
+            <f from="educationBG" to="educationbg"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+        <table from="traininfo" to="traininfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="starttime" to="starttime"></f>
+            <f from="endtime" to="endtime"></f>
+            <f from="org" to="org"></f>
+            <f from="address" to="address"></f>
+            <f from="subject" to="subject"></f>
+            <f from="cert" to="cert"></f>
+            <f from="remark" to="remark"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+        <table from="certinfo" to="certinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="gaintime" to="gaintime"></f>
+            <f from="certorg" to="certorg"></f>
+            <f from="certname" to="certname"></f>
+            <f from="score" to="score"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+
+        <table from="highlevelappendinfo" to="highlevelappendinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="basesalary" to="basesalary"></f>
+            <f from="yearbonus" to="yearbonus"></f>
+            <f from="subsidy" to="subsidy"></f>
+            <f from="stock" to="stock"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+        <table from="languageinfo" to="languageinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="langgtype" to="type"></f>
+            <f from="level" to="level"></f>
+            <!-- <f from="mastery" to="mastery"></f> -->
+            <f from="lands" to="lands"></f>
+            <f from="randw" to="randw"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+        <table from="otherinfo" to="otherinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="subject" to="subject"></f>
+            <f from="content" to="content"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>  -->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+        <table from="projectexperienceinfo" to="projectinfo">
+            <f from="resumecode" to="resumeid"></f>
+            <f from="starttime" to="starttime"></f>
+            <f from="endtime" to="endtime"></f>
+            <f from="projectname" to="projectname"></f>
+            <f from="developtool" to="developtool"></f>
+            <f from="hardwareevn" to="hardwareevn"></f>
+            <f from="softevn" to="softevn"></f>
+            <f from="projectremark" to="projectremark"></f>
+            <f from="trustremark" to="trustremark"></f>
+            <!--<f from="" to="createby">sysadmin</f>
+            <f from="" to="createdate">currdate</f>-->
+            <f from="activeflag" to="activeflag">1</f>
+        </table>
+    </task>
+</datatrans>

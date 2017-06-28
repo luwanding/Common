@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+    <!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+    <!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+    <!--user="igoldjob" password="i@goldjob2014" />-->
+   <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+    <document name="DoMain">
+
+        <entity name="resumeinfo" pk="resumeid" query="
+  SELECT a.*,b.functions,IFNULL(c.resumename,CONCAT(a.username,'的个人简历'))AS resumename,
+   IFNULL((SELECT money FROM resume_level WHERE resume_level_id = a.resume_level_id),0) AS money,IFNULL(c.companyid,'完全公开') AS companyid
+FROM talent_pool e INNER JOIN resumeinfo a ON e.resume_id=a.resumeid
+INNER JOIN jobintentinfo b ON e.resume_id=b.resumeid
+LEFT JOIN p_resumelist c ON e.resume_id=c.resumeid
+ WHERE a.activeflag=1 AND e.activeflag=1"
+                deltaImportQuery=" SELECT a.*,b.functions,IFNULL(c.resumename,CONCAT(a.username,'的个人简历'))AS resumename,
+                 IFNULL((SELECT money FROM resume_level WHERE resume_level_id = a.resume_level_id),0) AS money,IFNULL(c.companyid,'完全公开') AS companyid
+FROM talent_pool e INNER JOIN resumeinfo a ON e.resume_id=a.resumeid
+INNER JOIN jobintentinfo b ON e.resume_id=b.resumeid
+LEFT JOIN p_resumelist c ON e.resume_id=c.resumeid
+ WHERE a.activeflag=1 AND e.activeflag=1
+ AND e.resumeid='${dih.delta.resumeid}'"
+                deltaQuery=" SELECT a.*,b.functions,IFNULL(c.resumename,CONCAT(a.username,'的个人简历'))AS resumename,
+                 IFNULL((SELECT money FROM resume_level WHERE resume_level_id = a.resume_level_id),0) AS money,IFNULL(c.companyid,'完全公开') AS companyid
+FROM talent_pool e INNER JOIN resumeinfo a ON e.resume_id=a.resumeid
+INNER JOIN jobintentinfo b ON e.resume_id=b.resumeid
+LEFT JOIN p_resumelist c ON e.resume_id=c.resumeid
+ WHERE a.activeflag=1 AND e.activeflag=1 AND (a.updatedate > '${dataimporter.resumeinfo.last_index_time}' OR c.updatedate > '${dataimporter.resumeinfo.last_index_time}')">
+            <field column="resumeid" name="id"/>
+            <field column="username" name="username"/>
+            <field column="resumename" name="resumename"/>
+            <field column="companyid" name="companyid"/>
+            <field column="sex" name="sex"/>
+            <field column="borndate" name="borndate"/>
+            <field column="marital" name="marital"/>
+            <field column="email" name="email"/>
+            <field column="jobtypeid" name="jobtypeid"/>
+            <field column="address" name="address"/>
+            <field column="telphoneia" name="telphoneia"/>
+            <field column="telphone" name="telphone"/>
+            <field column="livecityid" name="livecityid"/>
+            <field column="homepage" name="homepage"/>
+            <field column="idtype" name="idtype"/>
+            <field column="id" name="idnumber"/>
+            <field column="accountaddressid" name="accountaddressid"/>
+            <field column="salary" name="salary"/>
+            <field column="basesalary" name="basesalary"/>
+            <field column="yearbonus" name="yearbonus"/>
+            <field column="workyears" name="workyears"/>
+            <field column="postcode" name="postcode"/>
+            <field column="jobstatus" name="jobstatus"/>
+            <field column="corptelia" name="corptelia"/>
+            <field column="corptelarea" name="corptelarea"/>
+            <field column="corptelz" name="corptelz"/>
+            <field column="corptelf" name="corptelf"/>
+            <field column="keyword" name="keyword"/>
+            <field column="height" name="height"/>
+            <field column="politics" name="politics"/>
+            <field column="qqcode" name="qqcode"/>
+            <field column="national" name="national"/>
+            <field column="hometelia" name="hometelia"/>
+            <field column="hometelarea" name="hometelarea"/>
+            <field column="educationbg " name="educationbg"/>
+            <field column="postcodenow " name="postcodenow"/>
+            <field column="postids " name="postids"/>
+            <field column="startworkyear " name="startworkyear"/>
+            <field column="jobindustry " name="jobindustry"/>
+            <field column="joblb " name="joblb"/>
+            <field column="companynow " name="companynow"/>
+            <field column="titlenow " name="titlenow"/>
+            <field column="createdate" name="createdate"/>
+            <field column="updatedate" name="updatedate"/>
+            <field column="createby" name="createby"/>
+            <field column="updateby" name="updateby"/>
+            <field column="version" name="version"/>
+            <field column="activeflag" name="activeflag"/>
+            <field column="money" name="money"/>
+            <field column="isdownload" name="isdownload"/>
+            <field column="isverify" name="isverify"/>
+            <field column="postids" name="postids"/>
+            <field column="functions" name="functions"/>
+<field column="citysort" name="citysort"/>
+            <field column="yearsort" name="yearsort"/>
+        </entity>
+    </document>
+</dataConfig> 

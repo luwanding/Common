@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="INFO" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%-d{HH:mm:ss}][%t] %c.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="GBK" /> 
+		<param name="Threshold" value="INFO" />
+		<param name="File" value="/home/xudelin/logs/webdemo.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{yyyy-MM-dd HH:mm:ss}[%60l][%-3L][%-5p]%m %n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+        	<param name="LevelMin" value="INFO"/>  
+    	</filter>  
+	</appender>
+	<appender name="ERRORFILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" /> 
+		<param name="Threshold" value="error" />
+		<param name="File" value="/home/xudelin/logs/webdemo_error.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{yyyy-MM-dd HH:mm:ss}[%60l][%-3L][%-5p]%m %n" />
+		</layout>
+	</appender>
+	<logger name="com" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	<logger name="io" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+	
+	<logger name="org" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERRORFILE" />
+	</logger>
+</log4j:configuration>

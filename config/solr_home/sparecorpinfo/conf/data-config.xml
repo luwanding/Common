@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+	<!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+	<!--user="igoldjob" password="i@goldjob2014" />-->
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+	<document name="DoMain">
+			<!-- 
+			query="SELECT j.* ,d.`label` AS strindustry,d1.`label` AS strnature ,d2.`label` AS strscope,d3.`label` AS strcity FROM c_corpinfo j 
+				LEFT JOIN data_dictionary d ON j.`industry` = d.`value` AND d.`groupCode`='DICT_COMP_INDUSTRY'
+				LEFT JOIN data_dictionary d1 ON j.`nature` = d1.`value` AND d1.`groupCode`='DICT_COMP_NATURE'
+				LEFT JOIN data_dictionary d2 ON j.`scope` = d2.`value` AND d2.`groupCode`='DICT_COMP_SCOPE'
+				LEFT JOIN data_dictionary d3 ON j.`city` = d3.`value` AND d3.`groupCode`='DICT_COMP_CITY'
+				WHERE j.activeflag=1"
+			 -->	
+		<entity name="spare_corpinfo" pk="corpid"			
+			query="SELECT *  FROM spare_corpinfo  WHERE corpname IS NOT NULL AND corpname!=''" 
+			deltaImportQuery="SELECT * FROM spare_corpinfo where  corpid='${dih.delta.corpid}' AND corpname IS NOT NULL AND corpname!=''"
+			deltaQuery="SELECT * FROM spare_corpinfo where updatedate > '${dataimporter.sparecorpinfo.last_index_time}'  AND corpname IS NOT NULL AND corpname!=''">
+			<field column="corpid" name="id" />
+			<field column="logo" name="logo" />
+			<field column="corpname" name="corpname" />
+			<field column="city" name="city" />			
+			<field column="nature" name="nature" />
+			<field column="scope" name="scope" />
+			<field column="industry" name="industry" />			
+			<field column="address" name="address" />			
+			<field column="description" name="description" />			
+			<field column="site" name="site" />			
+			<field column="createdate" name="createdate" />			
+			
+		</entity>
+
+	</document>
+</dataConfig> 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+	<!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+	<!--user="igoldjob" password="i@goldjob2014" />-->
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+	<document name="DoMain">
+		
+		<entity name="hweal" pk="id"
+			query="SELECT * FROM h_goodboon WHERE activeflag=1 "
+			deltaImportQuery="SELECT * FROM h_goodboon where id'${dih.delta.id}' and activeflag=1"
+			deltaQuery="SELECT * FROM h_goodboon where updatedate > '${dataimporter.weal.last_index_time}' and activeflag=1">
+			<field column="id" name="id" />
+			<field column="jobid" name="jobid" />
+			<field column="boonid" name="boonid" />
+			<field column="updatedate" name="updatedate" />
+			<field column="activeflag" name="activeflag" />
+			<field column="createdate" name="createdate" />			
+						
+		</entity>
+
+	</document>
+</dataConfig> 

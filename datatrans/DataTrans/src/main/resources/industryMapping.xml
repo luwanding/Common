@@ -1,0 +1,13 @@
+<industryMapping>
+    <m keyword="银行" value="银行"/>
+    <m keyword="分行" value="银行"/>
+    <m keyword="支行" value="银行"/>
+    <m keyword="保险" value="保险"/>
+    <m keyword="基金" value="基金"/>
+    <m keyword="证券" value="证券"/>
+    <m keyword="期货" value="期货"/>
+    <m keyword="信托" value="信托"/>
+    <m keyword="投资" value="投资/财富管理"/>
+    <m keyword="财富" value="投资/财富管理"/>
+    <m keyword="金融" value="投资/财富管理"/>
+</industryMapping>

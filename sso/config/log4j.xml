@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="debug" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%-d{HH:mm:ss}][easyrewards] %p [%t] %c{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="debug" />
+		<param name="File" value="E:/pengcq/logs/webdemo.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%-d{HH:mm:ss}][com.platform] %p [%t] %c{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+
+	<appender name="IBatis"
+		class="com.platform.common.tool.log.PrintSqlToPageAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%-d{HH:mm:ss}][com.platform] %p [%t] %c{1}.%M(%L) | %m%n" />
+		</layout>
+		<param name="attrName" value="showLog" />
+		<param name="className"
+			value="http=com.platform.common.tool.log.http.HttpPrintSql
+	   ,log4j=com.platform.common.tool.log.log4j.Log4jPrintSql" />
+		<param name="sqlList" value="sqlList" />
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="DEBUG" />
+		</filter>
+	</appender>
+
+
+
+	<!--
+		Suppress success logging from InteractiveAuthenticationSuccessEvent
+	-->
+	<logger name="org.acegisecurity">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="com.ibatis">
+		<level value="ERROR" />
+	</logger>
+	
+	<logger name="com.easyrewards">
+		<level value="DEBUG" />
+	</logger>
+	
+	<logger name="java.sql.PreparedStatement" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="IBatis" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="java.sql.Statement" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="IBatis" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="java.sql.Connection" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="IBatis" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<root>
+		<priority value="ERROR" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</log4j:configuration>

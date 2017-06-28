@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localcache>
+   <cache name="certinfo">
+      <maxSize>200MB</maxSize>
+      <!--有效时间(秒) -->
+      <maxLife>3000</maxLife>
+      <!-- 启动时加载列表 -->
+      <loader>
+          <node key="cachekey" >
+             <value ><ref></ref></value>	
+          </node>	
+      </loader>
+   </cache>
+</localcache>

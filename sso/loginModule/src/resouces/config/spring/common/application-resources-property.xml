@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="false">
+	
+	 <!---modify by chenjia  MEMCACHE客户端配置 -->
+	<bean id="cacheClient" class="com.platform.cache.memcache.impl.MemcachedController" init-method="InitConfig"/>
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	 
+	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+	<context:component-scan base-package="com" />
+	<!-- com.platform.common.encryption.database.DecryptPropertyPlaceholderConfigurer -->
+    <bean id="propertyConfigurer" 
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+        <property name="location" >
+            <value>file:${resources.config.path}/jdbc.properties</value>
+        </property> 
+    </bean> 
+	
+    <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver" value="${jdbc.driverClassName}" />
+        <property name="driverUrl" value="${jdbc.url}" />
+         <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/> 
+        <!--最少保持的空闲连接数(默认 2 个)-->  
+        <property name="prototypeCount"  value="${jdbc.maxIdle}"/>  
+        <!--最大连接数(默认 5 个),超过了这个连接数,再有请求时,就排在队列中等候,最大  
+            的等待请求数由 maximum-new-connections 决定 -->  
+        <property name="maximumConnectionCount" value="${jdbc.maxConn}"/>  
+        <!--最小连接数(默认 2 个)-->
+        <property name="minimumConnectionCount" value="${jdbc.minConn}"/>  
+        <!--如果housekeeper(毫秒) 检测到某个线程的活动时间大于这个数值.它将会杀掉这个线程.  
+            所以确认一下你的服务器的带宽.然后定一个合适的值.默认是5分钟.-->  
+        <property name="maximumActiveTime" value="${jdbc.maxActiveTime}"/>
+<!--        <property name="houseKeepingSleepTime">  
+            <value>9999</value>  
+        </property>-->  
+        <!--如果为true,那么每个被执行的SQL语句将会在执行期被log记录(DEBUG LEVEL).  
+            你也可以注册一个ConnectionListener (参看ProxoolFacade)得到这些信息.-->  
+        <property name="trace" value="${jdbc.trace}"/>
+        <property name="verbose" value="${jdbc.verbose}"/>
+    </bean>  
+    
+    
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+       <property name="dataSource" ref="dataSource" />  
+       <property name="configLocation"><value>classpath:config/ibatis/common/ibatis-sql-mapconfig.xml</value></property>
+    </bean>
+</beans>

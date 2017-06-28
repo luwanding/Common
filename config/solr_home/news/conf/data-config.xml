@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+    <!--<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"-->
+    <!--url="jdbc:mysql://192.168.0.2:33306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"-->
+    <!--user="igoldjob" password="i@goldjob2014" />-->
+    <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306/resume_web?useUnicode=true&amp;characterEncoding=utf-8"
+				user="root" password="mysql" />
+    <document name="DoMain">
+
+        <entity name="news" pk="infoid"
+                query="SELECT b.groupname,a.* FROM i_information a LEFT JOIN i_informationgroup b ON a.groupid = b.infogroupid where a.status=1 AND a.activeflag =1"
+                deltaImportQuery="SELECT b.groupname,a.* FROM i_information a LEFT JOIN i_informationgroup b ON a.groupid = b.infogroupid where a.infoid='${dih.delta.infoid}' and a.activeflag=1 and a.status=1"
+                deltaQuery="SELECT b.groupname,a.* FROM i_information a LEFT JOIN i_informationgroup b ON a.groupid = b.infogroupid where a.updatedate > '${dataimporter.news.last_index_time}' and a.status=1 and a.activeflag=1">
+            <field column="infoid" name="id"/>
+            <field column="title" name="titles"/>
+            <field column="text" name="neirong"/>
+            <field column="groupid" name="groupid"/>
+            <field column="preview_text" name="preview_text"/>
+            <field column="mobile_text" name="mobile_text"/>
+            <field column="mobile_photourl" name="mobile_photourl"/>
+            <field column="groupname" name="groupname"/>
+            <field column="editor" name="editor"/>
+            <field column="pubdate" name="pubdate"/>
+            <field column="source" name="source"/>
+            <field column="author" name="author"/>
+            <field column="photourl" name="photourl"/>
+            <field column="createdate" name="createdate"/>
+            <field column="updatedate" name="updatedate"/>
+            <field column="createby" name="createby"/>
+            <field column="updateby" name="updateby"/>
+        </entity>
+    </document>
+</dataConfig> 
